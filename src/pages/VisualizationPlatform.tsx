@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef, RefObject } from 'react';
-import { Card, Row, Col, Button, Typography, Spin, Space, Divider, Statistic, Badge } from 'antd';
-import { 
+import React, { useState, useEffect, useRef } from 'react'; // Removed RefObject
+// Removed Card, Divider
+import { Row, Col, Button, Typography, Spin, Space, Statistic, Badge } from 'antd';
+import {
   FullscreenOutlined,
-  FullscreenExitOutlined, 
-  ReloadOutlined, 
-  CloudServerOutlined, 
-  DatabaseOutlined, 
+  FullscreenExitOutlined,
+  ReloadOutlined,
+  CloudServerOutlined,
+  DatabaseOutlined,
   ApartmentOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
@@ -19,10 +20,10 @@ import ModernCard from '../components/ModernCard';
 
 const { Title, Text } = Typography;
 
-// 定义统计卡片样式
+// 定义统计卡片样式 (Keep as is)
 const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' | 'error' | 'info'; $isDark: boolean }>`
   height: 100%;
-  
+
   .ant-card-body {
     padding: 20px;
     display: flex;
@@ -40,26 +41,26 @@ const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' |
       return 'rgba(30, 41, 59, 0.85)';
     }};
   }
-  
+
   .ant-statistic-content-value {
     font-size: 28px;
     font-weight: 600;
   }
-  
+
   .indicator {
     display: flex;
     align-items: center;
     margin-top: 8px;
     font-size: 14px;
   }
-  
+
   ${props => {
     // 基于类型设置不同的渐变背景
     switch (props.$type) {
       case 'success':
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(24, 210, 186, 0.05) 0%, rgba(24, 210, 186, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(24, 210, 186, 0.05) 0%, rgba(24, 210, 186, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(0, 201, 167, 0.05) 0%, rgba(0, 201, 167, 0.1) 100%)'};
           .ant-statistic-content-value {
             color: ${props.$isDark ? '#18D2BA' : '#00C9A7'};
@@ -67,8 +68,8 @@ const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' |
         `;
       case 'warning':
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(255, 214, 98, 0.05) 0%, rgba(255, 214, 98, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(255, 214, 98, 0.05) 0%, rgba(255, 214, 98, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(255, 197, 66, 0.05) 0%, rgba(255, 197, 66, 0.1) 100%)'};
           .ant-statistic-content-value {
             color: ${props.$isDark ? '#FFD662' : '#FFC542'};
@@ -76,8 +77,8 @@ const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' |
         `;
       case 'error':
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(255, 122, 122, 0.05) 0%, rgba(255, 122, 122, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(255, 122, 122, 0.05) 0%, rgba(255, 122, 122, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 107, 107, 0.1) 100%)'};
           .ant-statistic-content-value {
             color: ${props.$isDark ? '#FF7A7A' : '#FF6B6B'};
@@ -86,8 +87,8 @@ const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' |
       case 'info':
       default:
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(91, 138, 249, 0.05) 0%, rgba(91, 138, 249, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(91, 138, 249, 0.05) 0%, rgba(91, 138, 249, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(42, 106, 255, 0.05) 0%, rgba(42, 106, 255, 0.1) 100%)'};
           .ant-statistic-content-value {
             color: ${props.$isDark ? '#5B8AF9' : '#2A6AFF'};
@@ -102,12 +103,12 @@ const StatHeader = styled.div<{ $isDark: boolean }>`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
-  
+
   .ant-badge-status-dot {
     width: 8px;
     height: 8px;
   }
-  
+
   .title {
     font-size: 16px;
     font-weight: 500;
@@ -115,7 +116,7 @@ const StatHeader = styled.div<{ $isDark: boolean }>`
   }
 `;
 
-// 全屏容器
+// 全屏容器 (Keep as is)
 const FullScreenContainer = styled.div<{ $fullScreen: boolean; $isDark: boolean }>`
   width: 100%;
   height: ${props => props.$fullScreen ? '100vh' : '100%'};
@@ -157,30 +158,10 @@ const GaugeContainer = styled.div`
   height: 120px;
 `;
 
-const FullscreenButton = styled(Button)<{ $isDark: boolean }>`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  font-size: 18px;
-  box-shadow: ${props => props.$isDark 
-    ? '0 4px 12px rgba(0, 0, 0, 0.5)' 
-    : '0 4px 12px rgba(0, 0, 0, 0.2)'};
-  z-index: 10000;
-  background: ${props => props.$isDark ? '#334155' : '#FFFFFF'};
-  border: 1px solid ${props => props.$isDark ? '#475569' : '#E2E8F0'};
-  
-  &:hover {
-    background: ${props => props.$isDark ? '#475569' : '#F8FAFC'};
-    transform: scale(1.05);
-  }
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+// Removed unused FullscreenButton definition
+// const FullscreenButton = styled(Button)<{ $isDark: boolean }>`
+//   ...styles...
+// `;
 
 const ActionButton = styled(Button)<{ $isDark: boolean }>`
   display: flex;
@@ -192,14 +173,14 @@ const ActionButton = styled(Button)<{ $isDark: boolean }>`
   color: white;
   border: none;
   margin-left: 12px;
-  box-shadow: ${props => props.$isDark 
-    ? '0 4px 8px rgba(0, 0, 0, 0.2)' 
+  box-shadow: ${props => props.$isDark
+    ? '0 4px 8px rgba(0, 0, 0, 0.2)'
     : '0 4px 8px rgba(37, 99, 235, 0.2)'};
-  
+
   &:hover {
     background: ${props => props.$isDark ? '#475569' : '#1D4ED8'};
   }
-  
+
   span {
     font-weight: 500;
   }
@@ -212,12 +193,12 @@ const LoadingContainer = styled.div<{ $isDark: boolean }>`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: ${props => props.$isDark 
-    ? '#0F172A' 
+  background: ${props => props.$isDark
+    ? '#0F172A'
     : '#F8FAFC'};
 `;
 
-// 模拟数据中心数据
+// 模拟数据 (Keep as is)
 const dataCenters = [
   { name: '北京数据中心', value: 100, type: 'main', coordinate: [116.4551, 40.2539] },
   { name: '上海数据中心', value: 80, type: 'main', coordinate: [121.4648, 31.2891] },
@@ -231,7 +212,6 @@ const dataCenters = [
   { name: '天津数据中心', value: 40, type: 'disaster', coordinate: [117.4219, 39.4189] }
 ];
 
-// 模拟数据流动
 const dataFlows = [
   { source: '北京数据中心', target: '上海数据中心', value: 85 },
   { source: '北京数据中心', target: '深圳数据中心', value: 70 },
@@ -246,7 +226,6 @@ const dataFlows = [
   { source: '北京数据中心', target: '天津数据中心', value: 75 }
 ];
 
-// 模拟每月数据量统计
 const monthlyDataStatistics = [
   { month: '1月', volume: 1250 },
   { month: '2月', volume: 1380 },
@@ -262,7 +241,6 @@ const monthlyDataStatistics = [
   { month: '12月', volume: 3500 }
 ];
 
-// 模拟每种类型的数据占比
 const dataTypePercentage = [
   { type: '结构化数据', value: 45, color: '#5B8AF9' },
   { type: '非结构化数据', value: 25, color: '#00C9A7' },
@@ -270,7 +248,6 @@ const dataTypePercentage = [
   { type: '其他数据', value: 10, color: '#FF6B6B' }
 ];
 
-// 模拟服务器性能指标
 const serverPerformanceData = [
   { type: 'CPU使用率', value: 65 },
   { type: '内存使用率', value: 72 },
@@ -279,7 +256,6 @@ const serverPerformanceData = [
   { type: '数据库负载', value: 68 }
 ];
 
-// 模拟各地区访问量
 const regionalAccessData = [
   { region: '华北', value: 10285 },
   { region: '华东', value: 9675 },
@@ -297,21 +273,21 @@ const VisualizationPlatform: React.FC = () => {
   const [fullScreen, setFullScreen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [chinaGeoJson, setChinaGeoJson] = useState<any>(null);
-  
+
   // 图表引用
   const mapChartRef = useRef<HTMLDivElement>(null);
   const lineChartRef = useRef<HTMLDivElement>(null);
   const pieChartRef = useRef<HTMLDivElement>(null);
-  const gaugeRefs = useRef<{[key: string]: HTMLDivElement | null}>({});
+  const gaugeRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const barChartRef = useRef<HTMLDivElement>(null);
-  
+
   // 存储Echarts实例
   const chartsRef = useRef<{ [key: string]: echarts.ECharts }>({});
-  
+
   // 切换全屏
   const toggleFullScreen = () => {
     setFullScreen(!fullScreen);
-    
+
     // 给图表重新调整大小的时间
     setTimeout(() => {
       Object.values(chartsRef.current).forEach(chart => {
@@ -325,7 +301,7 @@ const VisualizationPlatform: React.FC = () => {
     return dataFlows.map(flow => {
       const sourceCenter = dataCenters.find(center => center.name === flow.source);
       const targetCenter = dataCenters.find(center => center.name === flow.target);
-      
+
       if (sourceCenter && targetCenter) {
         return {
           fromName: flow.source,
@@ -337,7 +313,7 @@ const VisualizationPlatform: React.FC = () => {
       return null;
     }).filter(item => item !== null);
   };
-  
+
   // 初始化图表
   useEffect(() => {
     // 获取中国地图地理数据
@@ -352,20 +328,20 @@ const VisualizationPlatform: React.FC = () => {
         setLoading(false);
       });
   }, []);
-  
+
   // 初始化并更新所有图表
   useEffect(() => {
     if (loading || !chinaGeoJson) return;
-    
+
     // 注册地图数据
     echarts.registerMap('china', chinaGeoJson);
-    
+
     // 初始化全国数据中心地图
     if (mapChartRef.current) {
       const chart = echarts.init(mapChartRef.current);
       chartsRef.current.map = chart;
-      
-      const option = {
+
+      const option = { /* Map options remain the same */
         tooltip: {
           trigger: 'item',
           formatter: (params: any) => {
@@ -546,16 +522,16 @@ const VisualizationPlatform: React.FC = () => {
           }
         ]
       };
-      
+
       chart.setOption(option);
     }
-    
+
     // 初始化折线图
     if (lineChartRef.current) {
       const chart = echarts.init(lineChartRef.current);
       chartsRef.current.line = chart;
-      
-      const option = {
+
+      const option = { /* Line chart options remain the same */
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -643,16 +619,16 @@ const VisualizationPlatform: React.FC = () => {
           }
         ]
       };
-      
+
       chart.setOption(option);
     }
-    
+
     // 初始化饼图
     if (pieChartRef.current) {
       const chart = echarts.init(pieChartRef.current);
       chartsRef.current.pie = chart;
-      
-      const option = {
+
+      const option = { /* Pie chart options remain the same */
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)',
@@ -708,17 +684,17 @@ const VisualizationPlatform: React.FC = () => {
           }
         ]
       };
-      
+
       chart.setOption(option);
     }
-    
-    // 初始化服务器性能仪表盘 - 使用单独的容器解决重叠问题
+
+    // 初始化服务器性能仪表盘
     serverPerformanceData.forEach((item, index) => {
       const gaugeRef = gaugeRefs.current[`gauge-${index}`];
       if (gaugeRef) {
         const chart = echarts.init(gaugeRef);
         chartsRef.current[`gauge-${index}`] = chart;
-        
+
         let color;
         if (item.value >= 80) {
           color = '#FF6B6B';
@@ -727,8 +703,8 @@ const VisualizationPlatform: React.FC = () => {
         } else {
           color = '#00C9A7';
         }
-        
-        const option = {
+
+        const option = { /* Gauge options remain the same */
           tooltip: {
             formatter: '{b} : {c}%',
             backgroundColor: isDark ? 'rgba(30, 41, 59, 0.9)' : 'rgba(255, 255, 255, 0.9)',
@@ -803,17 +779,17 @@ const VisualizationPlatform: React.FC = () => {
             }
           ]
         };
-        
+
         chart.setOption(option);
       }
     });
-    
+
     // 初始化柱状图
     if (barChartRef.current) {
       const chart = echarts.init(barChartRef.current);
       chartsRef.current.bar = chart;
-      
-      const option = {
+
+      const option = { /* Bar chart options remain the same */
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -881,31 +857,31 @@ const VisualizationPlatform: React.FC = () => {
           }
         ]
       };
-      
+
       chart.setOption(option);
     }
-    
+
     // 处理窗口大小变化
     const handleResize = () => {
       Object.values(chartsRef.current).forEach(chart => {
         chart.resize();
       });
     };
-    
+
     window.addEventListener('resize', handleResize);
-    
+
     // 处理全屏变化
     const fullscreenChangeHandler = () => {
       setTimeout(() => {
         handleResize();
       }, 100);
     };
-    
+
     document.addEventListener('fullscreenchange', fullscreenChangeHandler);
     document.addEventListener('webkitfullscreenchange', fullscreenChangeHandler);
     document.addEventListener('mozfullscreenchange', fullscreenChangeHandler);
     document.addEventListener('MSFullscreenChange', fullscreenChangeHandler);
-    
+
     // 清理函数
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -913,13 +889,13 @@ const VisualizationPlatform: React.FC = () => {
       document.removeEventListener('webkitfullscreenchange', fullscreenChangeHandler);
       document.removeEventListener('mozfullscreenchange', fullscreenChangeHandler);
       document.removeEventListener('MSFullscreenChange', fullscreenChangeHandler);
-      
+
       Object.values(chartsRef.current).forEach(chart => {
         chart.dispose();
       });
     };
   }, [loading, chinaGeoJson, isDark, fullScreen]);
-  
+
   // 刷新所有图表
   const refreshCharts = () => {
     setLoading(true);
@@ -927,16 +903,16 @@ const VisualizationPlatform: React.FC = () => {
       setLoading(false);
     }, 1000);
   };
-  
+
   // 设置gauge的ref
   const setGaugeRef = (index: number) => (el: HTMLDivElement | null) => {
     gaugeRefs.current[`gauge-${index}`] = el;
   };
-  
-  const contentStyle = fullScreen ? 
-    { padding: '24px', overflow: 'auto', height: 'calc(100vh - 80px)' } : 
+
+  const contentStyle = fullScreen ?
+    { padding: '24px', overflow: 'auto', height: 'calc(100vh - 80px)' } :
     { width: '100%' };
-  
+
   return (
     <FullScreenContainer $fullScreen={fullScreen} $isDark={isDark}>
       {loading ? (
@@ -956,17 +932,17 @@ const VisualizationPlatform: React.FC = () => {
               </Title>
             </Space>
             <Space>
-              <ActionButton 
-                type="primary" 
-                icon={<ReloadOutlined />} 
+              <ActionButton
+                type="primary"
+                icon={<ReloadOutlined />}
                 onClick={refreshCharts}
                 $isDark={isDark}
               >
                 刷新数据
               </ActionButton>
-              <ActionButton 
-                type="primary" 
-                icon={fullScreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />} 
+              <ActionButton
+                type="primary"
+                icon={fullScreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
                 onClick={toggleFullScreen}
                 $isDark={isDark}
               >
@@ -974,11 +950,12 @@ const VisualizationPlatform: React.FC = () => {
               </ActionButton>
             </Space>
           </PageHeader>
-          
+
           <Space direction="vertical" style={contentStyle} size="large">
             {/* 顶部四个统计卡片 */}
             <Row gutter={[24, 24]}>
-              <Col xs={24} sm={12} md={6}>
+              {/* Statistic cards remain the same */}
+               <Col xs={24} sm={12} md={6}>
                 <StyledStatisticCard hoverable $type="info" $isDark={isDark}>
                   <StatHeader $isDark={isDark}>
                     <Text className="title">数据中心总数</Text>
@@ -1050,7 +1027,7 @@ const VisualizationPlatform: React.FC = () => {
             {/* 数据中心地图 */}
             <Row gutter={[16, 16]}>
               <Col span={24}>
-                <ModernCard 
+                <ModernCard
                   title={
                     <Space>
                       <GlobalOutlined />
@@ -1065,11 +1042,11 @@ const VisualizationPlatform: React.FC = () => {
                 </ModernCard>
               </Col>
             </Row>
-            
+
             {/* 数据处理量和类型分布 */}
             <Row gutter={[16, 16]}>
               <Col xs={24} lg={12}>
-                <ModernCard 
+                <ModernCard
                   title={
                     <Space>
                       <DatabaseOutlined />
@@ -1083,9 +1060,9 @@ const VisualizationPlatform: React.FC = () => {
                   </div>
                 </ModernCard>
               </Col>
-              
+
               <Col xs={24} lg={12}>
-                <ModernCard 
+                <ModernCard
                   title={
                     <Space>
                       <DatabaseOutlined />
@@ -1100,11 +1077,11 @@ const VisualizationPlatform: React.FC = () => {
                 </ModernCard>
               </Col>
             </Row>
-            
+
             {/* 服务器性能监控和访问量统计 */}
             <Row gutter={[16, 16]}>
               <Col xs={24} lg={12}>
-                <ModernCard 
+                <ModernCard
                   title={
                     <Space>
                       <CloudServerOutlined />
@@ -1115,9 +1092,10 @@ const VisualizationPlatform: React.FC = () => {
                 >
                   <div style={{ height: fullScreen ? '400px' : '350px' }}>
                     <GaugeGridContainer>
-                      {serverPerformanceData.map((item, index) => (
-                        <GaugeContainer 
-                          key={`gauge-${index}`} 
+                       {/* Renamed 'item' to '_item' */}
+                      {serverPerformanceData.map((_item, index) => (
+                        <GaugeContainer
+                          key={`gauge-${index}`}
                           ref={setGaugeRef(index)}
                         />
                       ))}
@@ -1125,9 +1103,9 @@ const VisualizationPlatform: React.FC = () => {
                   </div>
                 </ModernCard>
               </Col>
-              
+
               <Col xs={24} lg={12}>
-                <ModernCard 
+                <ModernCard
                   title={
                     <Space>
                       <ApartmentOutlined />

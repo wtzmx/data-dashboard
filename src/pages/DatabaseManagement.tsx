@@ -18,9 +18,9 @@ import styled from 'styled-components';
 import ModernCard from '../components/ModernCard';
 import ModernChart from '../components/ModernChart';
 import { useTheme } from '../context/ThemeContext';
-import * as echarts from 'echarts';
+// import * as echarts from 'echarts';
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 const { TextArea } = Input;
 const { Option } = Select;

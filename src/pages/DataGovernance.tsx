@@ -21,7 +21,7 @@ import ModernChart from '../components/ModernChart';
 import { useTheme } from '../context/ThemeContext';
 import * as echarts from 'echarts';
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
 const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' | 'error' | 'info'; $isDark: boolean }>`

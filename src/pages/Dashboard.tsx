@@ -7,7 +7,7 @@ import {
   SafetyCertificateOutlined,
   DatabaseOutlined,
   AimOutlined,
-  CloudServerOutlined,
+  // CloudServerOutlined,
   SearchOutlined,
   FileSearchOutlined,
   PartitionOutlined,

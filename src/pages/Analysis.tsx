@@ -1,31 +1,32 @@
 import React, { useState } from 'react';
-import { Card, Space, Table, Tag, Radio, DatePicker, Typography, Row, Col, Tabs, Button, Select, Input, Divider, Tooltip, Badge, Statistic, Progress, Dropdown } from 'antd';
+// 移除了未使用的 Radio, Tooltip
+import { Card, Space, Table, Tag, DatePicker, Typography, Row, Col, Tabs, Button, Select, Input, Divider, Badge, Statistic, Progress, Dropdown } from 'antd';
 import type { TableColumnsType } from 'antd';
 import {
   LineChartOutlined,
-  BarChartOutlined,
-  PieChartOutlined,
-  AreaChartOutlined,
-  RadarChartOutlined,
+  // BarChartOutlined, // Removed unused icon
+  // PieChartOutlined, // Removed unused icon
+  // AreaChartOutlined, // Removed unused icon
+  // RadarChartOutlined, // Removed unused icon
   RiseOutlined,
-  FallOutlined,
+  // FallOutlined, // Removed unused icon
   CloudDownloadOutlined,
   ReloadOutlined,
   FilterOutlined,
   SettingOutlined,
-  GithubOutlined,
-  QuestionCircleOutlined,
+  // GithubOutlined, // Removed unused icon
+  // QuestionCircleOutlined, // Removed unused icon
   DatabaseOutlined,
   FundProjectionScreenOutlined,
-  ApartmentOutlined,
+  // ApartmentOutlined, // Removed unused icon
   ThunderboltOutlined,
   AppstoreOutlined,
   SearchOutlined,
-  DownOutlined,
+  // DownOutlined, // Removed unused icon
   CloudServerOutlined,
   CodeSandboxOutlined,
   NodeIndexOutlined,
-  FormatPainterOutlined,
+  // FormatPainterOutlined, // Removed unused icon
   ApiOutlined,
   ClusterOutlined,
   HddOutlined,
@@ -34,12 +35,12 @@ import {
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import * as echarts from 'echarts';
-import ReactECharts from 'echarts-for-react';
+// import ReactECharts from 'echarts-for-react'; // Removed unused import
 import { useTheme } from '../context/ThemeContext';
 import ModernCard from '../components/ModernCard';
 import ModernChart from '../components/ModernChart';
 
-const { RangePicker } = DatePicker;
+// const { RangePicker } = DatePicker; // Removed unused destructuring
 
 interface DataItem {
   key: string;
@@ -70,7 +71,7 @@ const columns: TableColumnsType<DataItem> = [
     title: '标签',
     key: 'tags',
     dataIndex: 'tags',
-    render: (_, { tags }) => (
+    render: (_, { tags }) => ( // Keep '_' for text if needed by AntD signature, but only 'tags' is used here
       <>
         {tags.map((tag) => {
           let color = tag.length > 5 ? 'geekblue' : 'green';
@@ -89,7 +90,8 @@ const columns: TableColumnsType<DataItem> = [
   {
     title: '操作',
     key: 'action',
-    render: (_, record) => (
+    // render: (_, record) => ( // Original - 'record' is unused
+    render: () => ( // Corrected - No parameters needed for this specific render
       <Space size="middle">
         <a>查看详情</a>
         <a>删除</a>
@@ -126,7 +128,7 @@ const { Title, Text, Paragraph } = Typography;
 const { TabPane } = Tabs;
 const { Option } = Select;
 
-// 自定义样式组件
+// 自定义样式组件 (保持不变)
 const ActionButton = styled(Button)`
   border-radius: 6px;
   margin-right: 8px;
@@ -137,12 +139,12 @@ const StatHeader = styled.div<{ $isDark: boolean }>`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
-  
+
   .ant-badge-status-dot {
     width: 8px;
     height: 8px;
   }
-  
+
   .title {
     font-size: 16px;
     font-weight: 500;
@@ -181,7 +183,7 @@ const FilterPanel = styled.div<{ $isDark: boolean }>`
 
 const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' | 'error' | 'info'; $isDark: boolean }>`
   height: 100%;
-  
+
   .ant-card-body {
     padding: 20px;
     display: flex;
@@ -199,26 +201,26 @@ const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' |
       return 'rgba(30, 41, 59, 0.85)';
     }};
   }
-  
+
   .ant-statistic-content-value {
     font-size: 28px;
     font-weight: 600;
   }
-  
+
   .indicator {
     display: flex;
     align-items: center;
     margin-top: 8px;
     font-size: 14px;
   }
-  
+
   ${props => {
     // 基于类型设置不同的渐变背景
     switch (props.$type) {
       case 'success':
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(24, 210, 186, 0.05) 0%, rgba(24, 210, 186, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(24, 210, 186, 0.05) 0%, rgba(24, 210, 186, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(0, 201, 167, 0.05) 0%, rgba(0, 201, 167, 0.1) 100%)'};
           .ant-statistic-content-value {
             color: ${props.$isDark ? '#18D2BA' : '#00C9A7'};
@@ -226,8 +228,8 @@ const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' |
         `;
       case 'warning':
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(255, 214, 98, 0.05) 0%, rgba(255, 214, 98, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(255, 214, 98, 0.05) 0%, rgba(255, 214, 98, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(255, 197, 66, 0.05) 0%, rgba(255, 197, 66, 0.1) 100%)'};
           .ant-statistic-content-value {
             color: ${props.$isDark ? '#FFD662' : '#FFC542'};
@@ -235,8 +237,8 @@ const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' |
         `;
       case 'error':
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(255, 122, 122, 0.05) 0%, rgba(255, 122, 122, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(255, 122, 122, 0.05) 0%, rgba(255, 122, 122, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 107, 107, 0.1) 100%)'};
           .ant-statistic-content-value {
             color: ${props.$isDark ? '#FF7A7A' : '#FF6B6B'};
@@ -245,8 +247,8 @@ const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' |
       case 'info':
       default:
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(91, 138, 249, 0.05) 0%, rgba(91, 138, 249, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(91, 138, 249, 0.05) 0%, rgba(91, 138, 249, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(42, 106, 255, 0.05) 0%, rgba(42, 106, 255, 0.1) 100%)'};
           .ant-statistic-content-value {
             color: ${props.$isDark ? '#5B8AF9' : '#2A6AFF'};
@@ -258,36 +260,37 @@ const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' |
 
 const ModelCard = styled(ModernCard)<{ $isDark: boolean }>`
   height: 100%;
-  
+
   .ant-card-body {
     padding: 20px;
     height: 100%;
     display: flex;
     flex-direction: column;
   }
-  
+
   .model-icon {
     font-size: 24px;
     margin-bottom: 12px;
   }
-  
+
   .model-title {
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 8px;
   }
-  
+
   .model-stats {
     margin-top: auto;
     padding-top: 12px;
   }
 `;
 
+
 const BigDataAnalysis: React.FC = () => {
   const { themeMode } = useTheme();
   const isDark = themeMode === 'dark';
   const [activeTab, setActiveTab] = useState('1');
-  // 自定义分析模型数据
+  // 自定义分析模型数据 (保持不变)
   const analysisModels = [
     { key: '1', name: '用户行为预测', type: '机器学习', description: '基于历史行为数据预测用户未来行为趋势', icon: <RiseOutlined style={{ color: '#2A6AFF' }} /> },
     { key: '2', name: '异常检测模型', type: '深度学习', description: '检测数据中的异常值和模式', icon: <ThunderboltOutlined style={{ color: '#FF6B6B' }} /> },
@@ -300,7 +303,7 @@ const BigDataAnalysis: React.FC = () => {
     { key: '9', name: '代码自动生成器', type: '自动生成', description: '自动生成SQL查询代码和分析脚本，以及各种框架的ETL代码', icon: <CodeSandboxOutlined style={{ color: '#5B8AF9' }} /> },
   ];
 
-  // 散点图配置
+  // 散点图配置 (保持不变)
   const scatterOption = {
     title: {
       text: '多维度用户行为分析',
@@ -315,7 +318,7 @@ const BigDataAnalysis: React.FC = () => {
     yAxis: {},
     tooltip: {
       trigger: 'item',
-      formatter: function (params: any) {
+      formatter: function (params: any) { // Keeping 'any' for simplicity here, could define a specific type
         return `年龄: ${params.data[0]}<br/>使用时长: ${params.data[1]}分钟<br/>活跃度: ${params.data[2]}`;
       }
     },
@@ -342,7 +345,7 @@ const BigDataAnalysis: React.FC = () => {
     ]
   };
 
-  // 添加漏斗图配置
+  // 添加漏斗图配置 (保持不变)
   const funnelOption = {
     title: {
       text: '用户行为转化漏斗',
@@ -406,7 +409,7 @@ const BigDataAnalysis: React.FC = () => {
     ]
   };
 
-  // 添加雷达图配置
+  // 添加雷达图配置 (保持不变)
   const radarOption = {
     title: {
       text: '多维度数据质量评分',
@@ -440,7 +443,7 @@ const BigDataAnalysis: React.FC = () => {
       },
       splitArea: {
         areaStyle: {
-          color: isDark 
+          color: isDark
           ? ['rgba(51, 65, 85, 0.02)', 'rgba(51, 65, 85, 0.05)', 'rgba(51, 65, 85, 0.08)', 'rgba(51, 65, 85, 0.1)']
           : ['rgba(240, 249, 255, 0.5)', 'rgba(224, 242, 254, 0.5)', 'rgba(186, 230, 253, 0.5)', 'rgba(125, 211, 252, 0.5)']
         }
@@ -547,39 +550,47 @@ const BigDataAnalysis: React.FC = () => {
       {
         name: '箱线图',
         type: 'boxplot',
-        datasetIndex: 1,
+        // datasetIndex: 1, // dataset is not defined, using 'data' directly
         tooltip: {
-          formatter: function(param) {
+          // formatter: function(param) { // Original - implicit any
+          formatter: function(param: { name: string; data: number[] }) { // Corrected: Added type
+            // Boxplot data: [min, Q1, median, Q3, max] -> indices 0, 1, 2, 3, 4
             return [
               param.name + '：',
-              '最大值: ' + param.data[5],
-              '上四分位: ' + param.data[4],
-              '中位数: ' + param.data[3],
-              '下四分位: ' + param.data[2],
-              '最小值: ' + param.data[1]
-            ].join('<br/>'); 
+              // '最大值: ' + param.data[5], // Original - incorrect index
+              '最大值: ' + param.data[4],   // Corrected index
+              // '上四分位: ' + param.data[4], // Original - incorrect index
+              '上四分位: ' + param.data[3], // Corrected index
+              // '中位数: ' + param.data[3], // Original - incorrect index
+              '中位数: ' + param.data[2],   // Corrected index
+              // '下四分位: ' + param.data[2], // Original - incorrect index
+              '下四分位: ' + param.data[1], // Corrected index
+              // '最小值: ' + param.data[1] // Original - incorrect index
+              '最小值: ' + param.data[0]   // Corrected index
+            ].join('<br/>');
           }
         },
         data: [
-          [65, 72, 85, 95, 98],
+          [65, 72, 85, 95, 98], // [min, Q1, median, Q3, max]
           [55, 68, 75, 85, 90],
           [60, 70, 80, 88, 95],
           [50, 65, 77, 89, 95],
           [45, 60, 75, 84, 90]
         ],
         itemStyle: {
-          borderColor: function(seriesIndex) {
-            const colors = isDark 
-              ? ['#5B8AF9', '#18D2BA', '#FFD662', '#FF7A7A', '#9D8AEA'] 
+          // borderColor: function(seriesIndex) { // Original - implicit any, incorrect param name/usage
+          borderColor: function(params: { dataIndex: number }) { // Corrected: Renamed param and added type
+            const colors = isDark
+              ? ['#5B8AF9', '#18D2BA', '#FFD662', '#FF7A7A', '#9D8AEA']
               : ['#2A6AFF', '#00C9A7', '#FFC542', '#FF6B6B', '#865CD6'];
-            return colors[seriesIndex.dataIndex % colors.length];
+            return colors[params.dataIndex % colors.length]; // Use params.dataIndex
           }
         }
       }
     ]
   };
-  
-  // 热力图选项
+
+  // 热力图选项 (保持不变)
   const heatmapOption = {
     title: {
       text: '平台访问热力分布',
@@ -625,7 +636,7 @@ const BigDataAnalysis: React.FC = () => {
         type: 'heatmap',
         data: [
           // 生成随机数据
-          ...Array.from({ length: 7 }, (_, i) => 
+          ...Array.from({ length: 7 }, (_, i) =>
             Array.from({ length: 24 }, (_, j) => [j, i, Math.round(Math.random() * 10)])
           ).flat()
         ],
@@ -639,6 +650,7 @@ const BigDataAnalysis: React.FC = () => {
     ]
   };
 
+  // JSX 部分 (保持不变, 除了 FilterPanel 中的 DatePicker.RangePicker)
   return (
     <Space direction="vertical" style={{ width: '100%' }} size="large">
       <div style={{ marginBottom: '24px' }}>
@@ -659,7 +671,7 @@ const BigDataAnalysis: React.FC = () => {
           企业级分布式大数据处理平台，集成数据存储、计算、查询与分析能力，支持PB级数据实时处理与复杂分析模型应用。
         </Paragraph>
       </div>
-      
+
       <Row gutter={[24, 24]}>
         <Col span={24}>
           <FilterPanel $isDark={isDark}>
@@ -672,8 +684,8 @@ const BigDataAnalysis: React.FC = () => {
                 />
               </Col>
               <Col xs={24} md={5}>
-                <Select 
-                  placeholder="选择数据源" 
+                <Select
+                  placeholder="选择数据源"
                   style={{ width: '100%' }}
                   defaultValue="all"
                 >
@@ -685,8 +697,8 @@ const BigDataAnalysis: React.FC = () => {
                 </Select>
               </Col>
               <Col xs={24} md={5}>
-                <Select 
-                  placeholder="选择时间范围" 
+                <Select
+                  placeholder="选择时间范围"
                   style={{ width: '100%' }}
                   defaultValue="30d"
                 >
@@ -698,6 +710,7 @@ const BigDataAnalysis: React.FC = () => {
                 </Select>
               </Col>
               <Col xs={24} md={5}>
+                {/* 直接使用 DatePicker.RangePicker */}
                 <DatePicker.RangePicker style={{ width: '100%' }} />
               </Col>
               <Col xs={24} md={4} style={{ textAlign: 'right' }}>
@@ -712,6 +725,7 @@ const BigDataAnalysis: React.FC = () => {
       </Row>
 
       <Row gutter={[24, 24]}>
+        {/* Statistic Cards (保持不变) */}
         <Col xs={24} sm={12} md={6}>
           <StyledStatisticCard hoverable $type="info" $isDark={isDark}>
             <StatHeader $isDark={isDark}>
@@ -782,6 +796,7 @@ const BigDataAnalysis: React.FC = () => {
       </Row>
 
       <Row gutter={[24, 24]}>
+        {/* Tabs and Content (保持不变) */}
         <Col span={24}>
           <ModernCard hoverable>
             <Tabs activeKey={activeTab} onChange={setActiveTab} type="card">
@@ -800,7 +815,7 @@ const BigDataAnalysis: React.FC = () => {
                         </ModernCard>
                       </Col>
                     </Row>
-                    
+
                     <Row gutter={[24, 24]}>
                       <Col xs={24} md={12}>
                         <ModernCard hoverable>
@@ -813,7 +828,7 @@ const BigDataAnalysis: React.FC = () => {
                         </ModernCard>
                       </Col>
                     </Row>
-                    
+
                     <Row gutter={[24, 24]}>
                       <Col span={24}>
                         <ModernCard hoverable>
@@ -824,7 +839,7 @@ const BigDataAnalysis: React.FC = () => {
                   </Space>
                 </div>
               </TabPane>
-              
+
               <TabPane tab="分析模型管理" key="2">
                 <div style={{ padding: '16px 0' }}>
                   <Row gutter={[24, 24]}>
@@ -837,7 +852,7 @@ const BigDataAnalysis: React.FC = () => {
                       <Divider style={{ margin: '16px 0' }} />
                     </Col>
                   </Row>
-                  
+
                   <Row gutter={[24, 24]}>
                     {analysisModels.map(model => (
                       <Col xs={24} sm={12} md={8} key={model.key}>
@@ -848,7 +863,7 @@ const BigDataAnalysis: React.FC = () => {
                             {model.type}
                           </Tag>
                           <Text type="secondary">{model.description}</Text>
-                          
+
                           <div className="model-stats">
                             <Divider style={{ margin: '12px 0' }} />
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -876,7 +891,7 @@ const BigDataAnalysis: React.FC = () => {
                   </Row>
                 </div>
               </TabPane>
-              
+
               <TabPane tab="数据集成" key="3">
                 <div style={{ padding: '16px 0' }}>
                   <ModernCard title="数据连接与分布式计算集群" hoverable extra={<Button type="link" icon={<SearchOutlined />}>查看集群状态</Button>}>
@@ -961,7 +976,7 @@ const BigDataAnalysis: React.FC = () => {
                       </Col>
                     </Row>
                   </ModernCard>
-                  
+
                   <Row gutter={[24, 24]} style={{ marginTop: 24 }}>
                     <Col span={24}>
                       <ModernCard title="大数据生态体系" hoverable>
@@ -1014,18 +1029,18 @@ const BigDataAnalysis: React.FC = () => {
                   </Row>
                 </div>
               </TabPane>
-              
+
               <TabPane tab="数据详情" key="4">
                 <div style={{ padding: '16px 0' }}>
                   <ModernCard hoverable title="数据处理查询结果" extra={<Space>
                       <Button type="primary" size="small" icon={<CloudDownloadOutlined />}>导出</Button>
                       <Button size="small" icon={<ReloadOutlined />}>刷新</Button>
                     </Space>}>
-                    
+
                     <Row gutter={[24, 24]} style={{ marginBottom: 16 }}>
                       <Col span={24}>
-                        <Input.TextArea 
-                          placeholder="在此处输入SQL查询或自然语言描述您的分析需求" 
+                        <Input.TextArea
+                          placeholder="在此处输入SQL查询或自然语言描述您的分析需求"
                           autoSize={{ minRows: 3, maxRows: 6 }}
                           value="SELECT department, AVG(processing_time) as avg_time, COUNT(*) as total FROM data_analysis_records WHERE status = 'success' GROUP BY department ORDER BY avg_time DESC;"
                         />
@@ -1038,14 +1053,14 @@ const BigDataAnalysis: React.FC = () => {
                         </div>
                       </Col>
                     </Row>
-                    
-                    <Table 
-                      columns={columns} 
-                      dataSource={data} 
+
+                    <Table
+                      columns={columns}
+                      dataSource={data}
                       pagination={{ pageSize: 10 }}
                       bordered
                     />
-                    
+
                     <div style={{ marginTop: 16, background: isDark ? 'rgba(30, 41, 59, 0.2)' : 'rgba(243, 244, 246, 0.5)', padding: 12, borderRadius: 8 }}>
                       <Title level={5}>智能推荐</Title>
                       <ul style={{ paddingLeft: 20 }}>

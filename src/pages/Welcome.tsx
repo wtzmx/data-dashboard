@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Typography, 
-  Card, 
-  Row, 
-  Col, 
-  Avatar, 
-  Space, 
-  Button, 
-  Divider, 
-  List, 
-  Tag, 
-  Carousel, 
-  Statistic,
+import {
+  Typography,
+  Card, // Card is used by CarouselCard and potentially others, keep it for now unless explicitly unused.
+  Row,
+  Col,
+  Avatar,
+  Space,
+  Button,
+  Divider,
+  List,
+  // Tag, // Removed unused component
+  Carousel,
+  // Statistic, // Removed unused component
   Badge,
   message,
-  Tooltip,
+  // Tooltip, // Removed unused component
   Progress
 } from 'antd';
-import { 
-  UserOutlined, 
-  ClockCircleOutlined, 
-  MailOutlined, 
+import {
+  UserOutlined,
+  ClockCircleOutlined,
+  MailOutlined,
   SettingOutlined,
   FileSearchOutlined,
   BarChartOutlined,
@@ -43,7 +43,7 @@ import ModernCard from '../components/ModernCard';
 
 const { Title, Text, Paragraph } = Typography;
 
-// 添加动画效果
+// 添加动画效果 (Keep as is)
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -67,11 +67,11 @@ const floatAnimation = keyframes`
   }
 `;
 
-// 背景和页面容器
+// 背景和页面容器 (Keep as is)
 const PageContainer = styled.div<{ $isDark: boolean }>`
   position: relative;
   overflow: hidden;
-  
+
   &:before {
     content: '';
     position: absolute;
@@ -83,7 +83,7 @@ const PageContainer = styled.div<{ $isDark: boolean }>`
     background: ${props => props.$isDark ? 'rgba(91, 138, 249, 0.05)' : 'rgba(42, 106, 255, 0.05)'};
     z-index: 0;
   }
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -102,48 +102,49 @@ const MainContent = styled.div`
   z-index: 1;
 `;
 
-const WelcomeHeader = styled.div`
-  text-align: center;
-  margin-bottom: 40px;
-  animation: ${fadeIn} 0.8s ease-out;
-  
-  .welcome-subtitle {
-    max-width: 700px;
-    margin: 0 auto;
-  }
-`;
+// Removed unused WelcomeHeader definition
+// const WelcomeHeader = styled.div`
+//   text-align: center;
+//   margin-bottom: 40px;
+//   animation: ${fadeIn} 0.8s ease-out;
+//
+//   .welcome-subtitle {
+//     max-width: 700px;
+//     margin: 0 auto;
+//   }
+// `;
 
 const HeroSection = styled.div<{ $isDark: boolean }>`
   position: relative;
-  background: ${props => props.$isDark 
-    ? 'linear-gradient(135deg, #1E293B 0%, #0F172A 100%)' 
+  background: ${props => props.$isDark
+    ? 'linear-gradient(135deg, #1E293B 0%, #0F172A 100%)'
     : 'linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%)'};
   border-radius: 16px;
   padding: 40px;
   margin-bottom: 24px;
   overflow: hidden;
-  box-shadow: ${props => props.$isDark 
-    ? '0 8px 16px rgba(0, 0, 0, 0.3)' 
+  box-shadow: ${props => props.$isDark
+    ? '0 8px 16px rgba(0, 0, 0, 0.3)'
     : '0 8px 16px rgba(0, 0, 0, 0.05)'};
-  
+
   .hero-content {
     position: relative;
     z-index: 2;
     max-width: 50%;
   }
-  
+
   .hero-title {
     margin-bottom: 24px;
     font-size: 32px;
     color: ${props => props.$isDark ? '#FFFFFF' : '#1E293B'};
   }
-  
+
   .hero-description {
     margin-bottom: 32px;
     font-size: 16px;
     color: ${props => props.$isDark ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.7)'};
   }
-  
+
   .hero-image {
     position: absolute;
     right: 0;
@@ -157,7 +158,7 @@ const HeroSection = styled.div<{ $isDark: boolean }>`
     border-bottom-right-radius: 16px;
     opacity: ${props => props.$isDark ? 0.7 : 0.9};
     z-index: 1;
-    
+
     &:after {
       content: '';
       position: absolute;
@@ -165,12 +166,12 @@ const HeroSection = styled.div<{ $isDark: boolean }>`
       top: 0;
       width: 100px;
       height: 100%;
-      background: ${props => props.$isDark 
-        ? 'linear-gradient(90deg, #1E293B 0%, rgba(30, 41, 59, 0) 100%)' 
+      background: ${props => props.$isDark
+        ? 'linear-gradient(90deg, #1E293B 0%, rgba(30, 41, 59, 0) 100%)'
         : 'linear-gradient(90deg, #F0F9FF 0%, rgba(240, 249, 255, 0) 100%)'};
     }
   }
-  
+
   .hero-actions {
     display: flex;
     gap: 16px;
@@ -180,35 +181,35 @@ const HeroSection = styled.div<{ $isDark: boolean }>`
 const InfoCard = styled(ModernCard)<{ $isDark: boolean }>`
   margin-bottom: 24px;
   animation: ${fadeIn} 0.8s ease-out;
-  
+
   .ant-card-body {
     padding: 20px;
   }
-  
+
   .user-info {
     display: flex;
     align-items: center;
     gap: 16px;
   }
-  
+
   .user-meta {
     flex: 1;
   }
-  
+
   .user-actions {
     display: flex;
     flex-wrap: wrap;
     margin-top: 16px;
     gap: 8px;
   }
-  
+
   .login-info {
     margin-top: 8px;
     display: flex;
     align-items: center;
     color: ${props => props.$isDark ? 'rgba(226, 232, 240, 0.6)' : 'rgba(30, 41, 59, 0.6)'};
   }
-  
+
   .role-badge {
     background: ${props => props.$isDark ? '#334155' : '#F1F5F9'};
     color: ${props => props.$isDark ? '#5B8AF9' : '#2A6AFF'};
@@ -217,30 +218,30 @@ const InfoCard = styled(ModernCard)<{ $isDark: boolean }>`
     font-size: 12px;
     margin-left: 8px;
   }
-  
+
   .user-avatar {
     background: ${props => props.$isDark ? 'linear-gradient(135deg, #5B8AF9 0%, #18D2BA 100%)' : 'linear-gradient(135deg, #2A6AFF 0%, #00C9A7 100%)'};
     box-shadow: ${props => props.$isDark ? '0 4px 12px rgba(91, 138, 249, 0.5)' : '0 4px 12px rgba(42, 106, 255, 0.3)'};
   }
-  
+
   .stats-row {
     display: flex;
     margin-top: 16px;
     gap: 16px;
-    
+
     .stat-item {
       flex: 1;
       text-align: center;
       padding: 8px;
       background: ${props => props.$isDark ? 'rgba(30, 41, 59, 0.3)' : 'rgba(240, 249, 255, 0.5)'};
       border-radius: 8px;
-      
+
       .stat-value {
         font-size: 20px;
         font-weight: 600;
         color: ${props => props.$isDark ? '#FFFFFF' : '#1E293B'};
       }
-      
+
       .stat-label {
         font-size: 12px;
         color: ${props => props.$isDark ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)'};
@@ -249,6 +250,7 @@ const InfoCard = styled(ModernCard)<{ $isDark: boolean }>`
   }
 `;
 
+// Keep other styled components (ModuleCard, NewsCarousel, etc.) as they are...
 const ModuleCard = styled(ModernCard)<{ $isDark: boolean; $color?: string; onClick?: () => void }>`
   height: 100%;
   cursor: pointer;
@@ -256,22 +258,22 @@ const ModuleCard = styled(ModernCard)<{ $isDark: boolean; $color?: string; onCli
   overflow: hidden;
   position: relative;
   animation: ${fadeIn} 0.8s ease-out;
-  
+
   &:hover {
     transform: translateY(-6px);
-    box-shadow: ${props => props.$isDark 
-      ? '0 12px 20px rgba(0, 0, 0, 0.4)' 
+    box-shadow: ${props => props.$isDark
+      ? '0 12px 20px rgba(0, 0, 0, 0.4)'
       : '0 12px 20px rgba(0, 0, 0, 0.1)'};
-      
+
     .module-icon {
       animation: ${floatAnimation} 2s ease-in-out infinite;
     }
-    
+
     .module-image {
       transform: scale(1.1);
     }
   }
-  
+
   .module-image {
     position: absolute;
     top: 0;
@@ -284,12 +286,12 @@ const ModuleCard = styled(ModernCard)<{ $isDark: boolean; $color?: string; onCli
     transition: transform 0.5s ease;
     z-index: 0;
   }
-  
+
   .module-content {
     position: relative;
     z-index: 1;
   }
-  
+
   .module-icon-container {
     width: 60px;
     height: 60px;
@@ -300,74 +302,74 @@ const ModuleCard = styled(ModernCard)<{ $isDark: boolean; $color?: string; onCli
     margin-bottom: 16px;
     background: ${props => {
       if (props.$color === 'blue') {
-        return props.$isDark 
-          ? 'linear-gradient(135deg, #5B8AF9 0%, #334155 100%)' 
+        return props.$isDark
+          ? 'linear-gradient(135deg, #5B8AF9 0%, #334155 100%)'
           : 'linear-gradient(135deg, #2A6AFF 0%, #BBD6FF 100%)';
       } else if (props.$color === 'green') {
-        return props.$isDark 
-          ? 'linear-gradient(135deg, #18D2BA 0%, #334155 100%)' 
+        return props.$isDark
+          ? 'linear-gradient(135deg, #18D2BA 0%, #334155 100%)'
           : 'linear-gradient(135deg, #00C9A7 0%, #B5F2EA 100%)';
       } else if (props.$color === 'yellow') {
-        return props.$isDark 
-          ? 'linear-gradient(135deg, #FFD662 0%, #334155 100%)' 
+        return props.$isDark
+          ? 'linear-gradient(135deg, #FFD662 0%, #334155 100%)'
           : 'linear-gradient(135deg, #FFC542 0%, #FFEFC2 100%)';
       } else if (props.$color === 'red') {
-        return props.$isDark 
-          ? 'linear-gradient(135deg, #FF7A7A 0%, #334155 100%)' 
+        return props.$isDark
+          ? 'linear-gradient(135deg, #FF7A7A 0%, #334155 100%)'
           : 'linear-gradient(135deg, #FF6B6B 0%, #FFCACA 100%)';
       } else if (props.$color === 'purple') {
-        return props.$isDark 
-          ? 'linear-gradient(135deg, #9D8AEA 0%, #334155 100%)' 
+        return props.$isDark
+          ? 'linear-gradient(135deg, #9D8AEA 0%, #334155 100%)'
           : 'linear-gradient(135deg, #865CD6 0%, #D8CFFF 100%)';
       } else if (props.$color === 'orange') {
-        return props.$isDark 
-          ? 'linear-gradient(135deg, #FFA26B 0%, #334155 100%)' 
+        return props.$isDark
+          ? 'linear-gradient(135deg, #FFA26B 0%, #334155 100%)'
           : 'linear-gradient(135deg, #FF8C42 0%, #FFD8BC 100%)';
       } else {
-        return props.$isDark 
-          ? 'linear-gradient(135deg, #5B8AF9 0%, #334155 100%)' 
+        return props.$isDark
+          ? 'linear-gradient(135deg, #5B8AF9 0%, #334155 100%)'
           : 'linear-gradient(135deg, #2A6AFF 0%, #BBD6FF 100%)';
       }
     }};
     box-shadow: ${props => props.$isDark ? '0 8px 16px rgba(0, 0, 0, 0.3)' : '0 8px 16px rgba(0, 0, 0, 0.1)'};
   }
-  
+
   .module-icon {
     font-size: 26px;
     color: white;
     transition: all 0.3s;
   }
-  
+
   .module-title {
     margin-bottom: 8px;
     font-weight: 600;
   }
-  
+
   .module-description {
     margin-bottom: 16px;
     color: ${props => props.$isDark ? 'rgba(226, 232, 240, 0.7)' : 'rgba(30, 41, 59, 0.7)'};
   }
-  
+
   .module-actions {
     margin-top: 16px;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
   }
-  
+
   .module-stat {
     margin-top: 16px;
     padding-top: 16px;
     border-top: 1px solid ${props => props.$isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.06)'};
     display: flex;
     justify-content: space-between;
-    
+
     .stat-value {
       font-weight: bold;
       font-size: 14px;
       color: ${props => props.$isDark ? 'white' : '#1E293B'};
     }
-    
+
     .stat-label {
       color: ${props => props.$isDark ? 'rgba(226, 232, 240, 0.6)' : 'rgba(30, 41, 59, 0.6)'};
       font-size: 12px;
@@ -378,23 +380,23 @@ const ModuleCard = styled(ModernCard)<{ $isDark: boolean; $color?: string; onCli
 const NewsCarousel = styled(Carousel)`
   animation: ${fadeIn} 0.8s ease-out;
   margin-bottom: 24px;
-  
+
   .slick-dots li button {
     background: var(--dot-color, #2A6AFF);
   }
-  
+
   .slick-dots li.slick-active button {
     background: var(--dot-color, #2A6AFF);
   }
-  
+
   .slick-dots {
     bottom: -5px;
   }
-  
+
   &.theme-dark {
     --dot-color: #5B8AF9;
   }
-  
+
   &.theme-light {
     --dot-color: #2A6AFF;
   }
@@ -407,29 +409,29 @@ const CarouselCard = styled(Card)<{ $isDark: boolean; $type?: 'info' | 'warning'
   height: 220px;
   border: none;
   box-shadow: ${props => props.$isDark ? '0 8px 16px rgba(0, 0, 0, 0.3)' : '0 8px 16px rgba(0, 0, 0, 0.05)'};
-  
+
   .ant-card-body {
     padding: 24px;
     height: 100%;
     background: ${props => {
       if (props.$type === 'warning') {
-        return props.$isDark 
-          ? 'linear-gradient(135deg, rgba(255, 214, 98, 0.1) 0%, rgba(30, 41, 59, 1) 100%)' 
+        return props.$isDark
+          ? 'linear-gradient(135deg, rgba(255, 214, 98, 0.1) 0%, rgba(30, 41, 59, 1) 100%)'
           : 'linear-gradient(135deg, rgba(255, 197, 66, 0.1) 0%, rgba(255, 255, 255, 1) 100%)';
       } else if (props.$type === 'update') {
-        return props.$isDark 
-          ? 'linear-gradient(135deg, rgba(24, 210, 186, 0.1) 0%, rgba(30, 41, 59, 1) 100%)' 
+        return props.$isDark
+          ? 'linear-gradient(135deg, rgba(24, 210, 186, 0.1) 0%, rgba(30, 41, 59, 1) 100%)'
           : 'linear-gradient(135deg, rgba(0, 201, 167, 0.1) 0%, rgba(255, 255, 255, 1) 100%)';
       } else {
-        return props.$isDark 
-          ? 'linear-gradient(135deg, rgba(91, 138, 249, 0.1) 0%, rgba(30, 41, 59, 1) 100%)' 
+        return props.$isDark
+          ? 'linear-gradient(135deg, rgba(91, 138, 249, 0.1) 0%, rgba(30, 41, 59, 1) 100%)'
           : 'linear-gradient(135deg, rgba(42, 106, 255, 0.1) 0%, rgba(255, 255, 255, 1) 100%)';
       }
     }};
     position: relative;
     overflow: hidden;
   }
-  
+
   .news-badge {
     position: absolute;
     top: 24px;
@@ -438,7 +440,7 @@ const CarouselCard = styled(Card)<{ $isDark: boolean; $type?: 'info' | 'warning'
     border-radius: 50px;
     font-size: 12px;
     font-weight: 500;
-    
+
     background: ${props => {
       if (props.$type === 'warning') {
         return props.$isDark ? 'rgba(255, 214, 98, 0.2)' : 'rgba(255, 197, 66, 0.2)';
@@ -448,7 +450,7 @@ const CarouselCard = styled(Card)<{ $isDark: boolean; $type?: 'info' | 'warning'
         return props.$isDark ? 'rgba(91, 138, 249, 0.2)' : 'rgba(42, 106, 255, 0.2)';
       }
     }};
-    
+
     color: ${props => {
       if (props.$type === 'warning') {
         return props.$isDark ? '#FFD662' : '#FFC542';
@@ -459,7 +461,7 @@ const CarouselCard = styled(Card)<{ $isDark: boolean; $type?: 'info' | 'warning'
       }
     }};
   }
-  
+
   .news-image {
     position: absolute;
     bottom: 0;
@@ -470,26 +472,26 @@ const CarouselCard = styled(Card)<{ $isDark: boolean; $type?: 'info' | 'warning'
     background-size: cover;
     background-position: center;
   }
-  
+
   .news-title {
     font-weight: 600;
     margin-bottom: 12px;
     font-size: 20px;
     padding-right: 60px;
   }
-  
+
   .news-date {
     display: flex;
     align-items: center;
     color: ${props => props.$isDark ? 'rgba(226, 232, 240, 0.6)' : 'rgba(30, 41, 59, 0.6)'};
     font-size: 13px;
     margin-bottom: 16px;
-    
+
     .date-icon {
       margin-right: 8px;
     }
   }
-  
+
   .news-actions {
     margin-top: 24px;
   }
@@ -498,31 +500,31 @@ const CarouselCard = styled(Card)<{ $isDark: boolean; $type?: 'info' | 'warning'
 const TipsCard = styled(ModernCard)<{ $isDark: boolean }>`
   height: 100%;
   animation: ${fadeIn} 1s ease-out;
-  
+
   .ant-card-body {
     padding: 20px;
     height: 100%;
     display: flex;
     flex-direction: column;
   }
-  
+
   .tip-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
   }
-  
+
   .tip-item {
     display: flex;
     align-items: flex-start;
     padding: 12px 0;
     border-bottom: 1px solid ${props => props.$isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.06)'};
-    
+
     &:last-child {
       border-bottom: none;
     }
-    
+
     .tip-icon-container {
       width: 36px;
       height: 36px;
@@ -532,26 +534,26 @@ const TipsCard = styled(ModernCard)<{ $isDark: boolean }>`
       justify-content: center;
       margin-right: 16px;
       flex-shrink: 0;
-      background: ${props => props.$isDark 
-        ? 'rgba(255, 214, 98, 0.15)' 
+      background: ${props => props.$isDark
+        ? 'rgba(255, 214, 98, 0.15)'
         : 'rgba(255, 197, 66, 0.15)'};
     }
-    
+
     .tip-icon {
       color: ${props => props.$isDark ? '#FFD662' : '#FFC542'};
       font-size: 18px;
     }
-    
+
     .tip-content {
       flex: 1;
     }
-    
+
     .tip-title {
       font-weight: 500;
       margin-bottom: 4px;
     }
   }
-  
+
   .tips-footer {
     margin-top: auto;
     text-align: center;
@@ -562,33 +564,33 @@ const TipsCard = styled(ModernCard)<{ $isDark: boolean }>`
 const RecentCard = styled(ModernCard)<{ $isDark: boolean }>`
   height: 100%;
   animation: ${fadeIn} 0.9s ease-out;
-  
+
   .ant-card-body {
     padding: 20px;
     height: 100%;
     display: flex;
     flex-direction: column;
   }
-  
+
   .recent-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
   }
-  
+
   .recent-list {
     flex: 1;
-    
+
     .ant-list-item {
       padding: 12px 0;
       border-bottom: 1px solid ${props => props.$isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.06)'};
-      
+
       &:last-child {
         border-bottom: none;
       }
     }
-    
+
     .recent-icon-container {
       width: 40px;
       height: 40px;
@@ -598,89 +600,89 @@ const RecentCard = styled(ModernCard)<{ $isDark: boolean }>`
       justify-content: center;
       margin-right: 16px;
       flex-shrink: 0;
-      
+
       &.type-model {
-        background: ${props => props.$isDark 
-          ? 'rgba(91, 138, 249, 0.15)' 
+        background: ${props => props.$isDark
+          ? 'rgba(91, 138, 249, 0.15)'
           : 'rgba(42, 106, 255, 0.15)'};
-          
+
         .recent-icon {
           color: ${props => props.$isDark ? '#5B8AF9' : '#2A6AFF'};
         }
       }
-      
+
       &.type-dashboard {
-        background: ${props => props.$isDark 
-          ? 'rgba(24, 210, 186, 0.15)' 
+        background: ${props => props.$isDark
+          ? 'rgba(24, 210, 186, 0.15)'
           : 'rgba(0, 201, 167, 0.15)'};
-          
+
         .recent-icon {
           color: ${props => props.$isDark ? '#18D2BA' : '#00C9A7'};
         }
       }
-      
+
       &.type-dataset {
-        background: ${props => props.$isDark 
-          ? 'rgba(255, 214, 98, 0.15)' 
+        background: ${props => props.$isDark
+          ? 'rgba(255, 214, 98, 0.15)'
           : 'rgba(255, 197, 66, 0.15)'};
-          
+
         .recent-icon {
           color: ${props => props.$isDark ? '#FFD662' : '#FFC542'};
         }
       }
-      
+
       &.type-map {
-        background: ${props => props.$isDark 
-          ? 'rgba(157, 138, 234, 0.15)' 
+        background: ${props => props.$isDark
+          ? 'rgba(157, 138, 234, 0.15)'
           : 'rgba(134, 92, 214, 0.15)'};
-          
+
         .recent-icon {
           color: ${props => props.$isDark ? '#9D8AEA' : '#865CD6'};
         }
       }
     }
-    
+
     .recent-icon {
       font-size: 18px;
     }
-    
+
     .recent-info {
       flex: 1;
-      
+
       .recent-title {
         font-weight: 500;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      
+
       .recent-meta {
         color: ${props => props.$isDark ? 'rgba(226, 232, 240, 0.6)' : 'rgba(30, 41, 59, 0.6)'};
         font-size: 12px;
         display: flex;
         align-items: center;
-        
+
         .recent-tag {
           padding: 1px 6px;
           border-radius: 4px;
           margin-right: 8px;
           font-size: 11px;
-          
+
           &.type-model {
             background: ${props => props.$isDark ? 'rgba(91, 138, 249, 0.15)' : 'rgba(42, 106, 255, 0.15)'};
             color: ${props => props.$isDark ? '#5B8AF9' : '#2A6AFF'};
           }
-          
+
           &.type-dashboard {
             background: ${props => props.$isDark ? 'rgba(24, 210, 186, 0.15)' : 'rgba(0, 201, 167, 0.15)'};
             color: ${props => props.$isDark ? '#18D2BA' : '#00C9A7'};
           }
-          
+
           &.type-dataset {
             background: ${props => props.$isDark ? 'rgba(255, 214, 98, 0.15)' : 'rgba(255, 197, 66, 0.15)'};
             color: ${props => props.$isDark ? '#FFD662' : '#FFC542'};
           }
-          
+
           &.type-map {
             background: ${props => props.$isDark ? 'rgba(157, 138, 234, 0.15)' : 'rgba(134, 92, 214, 0.15)'};
             color: ${props => props.$isDark ? '#9D8AEA' : '#865CD6'};
@@ -689,7 +691,7 @@ const RecentCard = styled(ModernCard)<{ $isDark: boolean }>`
       }
     }
   }
-  
+
   .recent-footer {
     text-align: center;
     margin-top: 16px;
@@ -698,18 +700,18 @@ const RecentCard = styled(ModernCard)<{ $isDark: boolean }>`
 
 const SupportCard = styled(ModernCard)<{ $isDark: boolean }>`
   animation: ${fadeIn} 1.1s ease-out;
-  
+
   .support-item {
     display: flex;
     align-items: center;
     padding: 16px 0;
     cursor: pointer;
     transition: all 0.3s;
-    
+
     &:hover {
       transform: translateY(-3px);
     }
-    
+
     .support-icon-container {
       width: 48px;
       height: 48px;
@@ -719,27 +721,27 @@ const SupportCard = styled(ModernCard)<{ $isDark: boolean }>`
       justify-content: center;
       margin-right: 16px;
       flex-shrink: 0;
-      background: ${props => props.$isDark 
-        ? 'rgba(91, 138, 249, 0.15)' 
+      background: ${props => props.$isDark
+        ? 'rgba(91, 138, 249, 0.15)'
         : 'rgba(42, 106, 255, 0.15)'};
     }
-    
+
     .support-icon {
       font-size: 20px;
       color: ${props => props.$isDark ? '#5B8AF9' : '#2A6AFF'};
     }
-    
+
     .support-content {
       flex: 1;
     }
-    
+
     .support-action {
       color: ${props => props.$isDark ? '#5B8AF9' : '#2A6AFF'};
     }
   }
 `;
 
-// 示例数据
+// 示例数据 (Keep as is)
 const newsData = [
   {
     title: '数商数据中心平台V2.0版本发布，全新UI与功能体验',
@@ -814,6 +816,24 @@ const recentItems = [
     icon: <FileSearchOutlined />,
     time: '上周',
     progress: 100
+  }
+];
+
+const supportData = [
+  {
+    title: '数商中心帮助文档',
+    description: '查阅详细的操作指南、API文档与最佳实践',
+    icon: <QuestionCircleOutlined />
+  },
+  {
+    title: '在线技术支持',
+    description: '工作日 9:00-17:30 提供专业技术咨询',
+    icon: <CustomerServiceOutlined />
+  },
+  {
+    title: '联系数据中心团队',
+    description: '提交需求或问题反馈给数据管理团队',
+    icon: <TeamOutlined />
   }
 ];
 
@@ -916,68 +936,50 @@ const moduleData = [
   }
 ];
 
-const supportData = [
-  {
-    title: '数商中心帮助文档',
-    description: '查阅详细的操作指南、API文档与最佳实践',
-    icon: <QuestionCircleOutlined />
-  },
-  {
-    title: '在线技术支持',
-    description: '工作日 9:00-17:30 提供专业技术咨询',
-    icon: <CustomerServiceOutlined />
-  },
-  {
-    title: '联系数据中心团队',
-    description: '提交需求或问题反馈给数据管理团队',
-    icon: <TeamOutlined />
-  }
-];
 
-// 创建图片展示区样式
 const ImageShowcase = styled.div`
   margin: 24px 0;
-  
+
   .showcase-title {
     margin-bottom: 16px;
   }
-  
+
   .showcase-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    
+
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
     }
-    
+
     @media (max-width: 576px) {
       grid-template-columns: 1fr;
     }
   }
-  
+
   .showcase-item {
     height: 200px;
     border-radius: 12px;
     overflow: hidden;
     position: relative;
-    
+
     &:hover .showcase-overlay {
       opacity: 1;
     }
-    
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.5s;
     }
-    
+
     &:hover img {
       transform: scale(1.05);
     }
   }
-  
+
   .showcase-overlay {
     position: absolute;
     bottom: 0;
@@ -989,41 +991,43 @@ const ImageShowcase = styled.div`
     opacity: 0.8;
     transition: opacity 0.3s;
   }
-  
+
   .showcase-caption {
     font-weight: 500;
     margin-bottom: 4px;
   }
-  
+
   .showcase-description {
     font-size: 12px;
     opacity: 0.9;
   }
 `;
 
+
 const Welcome: React.FC = () => {
   const { themeMode } = useTheme();
   const isDark = themeMode === 'dark';
-  const [loading, setLoading] = useState(false);
-  
+  // Removed unused 'loading' variable, keep setLoading as it's used in useEffect
+  const [, setLoading] = useState(false);
+
   // 页面加载动画效果
   useEffect(() => {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
     }, 500);
-    
+
     return () => clearTimeout(timer);
-  }, []);
-  
+  }, []); // Add setLoading to dependency array if needed, but it seems purely for effect timing
+
   const handleModuleClick = (module: string) => {
     message.info(`您点击了${module}模块`);
   };
-  
+
   return (
     <PageContainer $isDark={isDark}>
       <MainContent>
-        {/* 英雄区域 */}
+        {/* Hero Section (Keep as is) */}
         <Row gutter={[16, 16]}>
           <Col xs={24}>
             <HeroSection $isDark={isDark}>
@@ -1044,22 +1048,22 @@ const Welcome: React.FC = () => {
             </HeroSection>
           </Col>
         </Row>
-        
-        {/* 企业级数据管理功能 - 两行三列布局 */}
-        <div style={{ marginBottom: 24 }}>
+
+        {/* 企业级数据管理功能 (Keep as is) */}
+         <div style={{ marginBottom: 24 }}>
           <Divider orientation="left" style={{ margin: '16px 0 16px' }}>
             <Space>
               <RadarChartOutlined />
               <span>企业级数据管理功能</span>
             </Space>
           </Divider>
-          
+
           <Row gutter={[16, 16]}>
             {moduleData.slice(0, 3).map((module, index) => (
               <Col xs={24} sm={12} md={8} key={index}>
-                <ModuleCard 
-                  hoverable 
-                  $isDark={isDark} 
+                <ModuleCard
+                  hoverable
+                  $isDark={isDark}
                   $color={module.color}
                   onClick={() => handleModuleClick(module.title)}
                 >
@@ -1076,9 +1080,9 @@ const Welcome: React.FC = () => {
                     </div>
                     <div className="module-actions">
                       {module.actions.map((action, i) => (
-                        <Button 
-                          key={i} 
-                          size="small" 
+                        <Button
+                          key={i}
+                          size="small"
                           type={action.primary ? "primary" : undefined}
                         >
                           {action.label}
@@ -1094,13 +1098,13 @@ const Welcome: React.FC = () => {
               </Col>
             ))}
           </Row>
-          
+
           <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
             {moduleData.slice(3, 6).map((module, index) => (
               <Col xs={24} sm={12} md={8} key={index + 3}>
-                <ModuleCard 
-                  hoverable 
-                  $isDark={isDark} 
+                <ModuleCard
+                  hoverable
+                  $isDark={isDark}
                   $color={module.color}
                   onClick={() => handleModuleClick(module.title)}
                 >
@@ -1117,9 +1121,9 @@ const Welcome: React.FC = () => {
                     </div>
                     <div className="module-actions">
                       {module.actions.map((action, i) => (
-                        <Button 
-                          key={i} 
-                          size="small" 
+                        <Button
+                          key={i}
+                          size="small"
                           type={action.primary ? "primary" : undefined}
                         >
                           {action.label}
@@ -1136,8 +1140,8 @@ const Welcome: React.FC = () => {
             ))}
           </Row>
         </div>
-        
-        {/* 用户信息和其他卡片区域 */}
+
+        {/* 用户信息和其他卡片区域 (Keep as is) */}
         <Row gutter={[16, 16]}>
           {/* 用户信息卡片和新闻轮播 */}
           <Col xs={24} lg={16}>
@@ -1159,16 +1163,16 @@ const Welcome: React.FC = () => {
                     </div>
                     <div>
                       <Badge count={3} overflowCount={99}>
-                        <Button 
-                          type="text" 
-                          icon={<MailOutlined />} 
-                          size="large" 
+                        <Button
+                          type="text"
+                          icon={<MailOutlined />}
+                          size="large"
                           onClick={() => message.info('您有3条未读消息')}
                         />
                       </Badge>
                     </div>
                   </div>
-                  
+
                   <div className="stats-row">
                     <div className="stat-item">
                       <div className="stat-value">8</div>
@@ -1183,9 +1187,9 @@ const Welcome: React.FC = () => {
                       <div className="stat-label">本月访问</div>
                     </div>
                   </div>
-                  
+
                   <Divider style={{ margin: '12px 0' }} />
-                  
+
                   <div className="user-actions">
                     <Button type="primary" icon={<UserOutlined />}>我的工作台</Button>
                     <Button icon={<SettingOutlined />}>个人设置</Button>
@@ -1193,11 +1197,11 @@ const Welcome: React.FC = () => {
                   </div>
                 </InfoCard>
               </Col>
-              
+
               <Col xs={24}>
                 {/* 新闻公告轮播 */}
-                <NewsCarousel 
-                  autoplay 
+                <NewsCarousel
+                  autoplay
                   className={isDark ? 'theme-dark' : 'theme-light'}
                 >
                   {newsData.map((news, index) => (
@@ -1219,16 +1223,16 @@ const Welcome: React.FC = () => {
                             查看详情
                           </Button>
                         </div>
-                        <div 
-                          className="news-image" 
-                          style={{ backgroundImage: `url(${news.image})` }} 
+                        <div
+                          className="news-image"
+                          style={{ backgroundImage: `url(${news.image})` }}
                         />
                       </CarouselCard>
                     </div>
                   ))}
                 </NewsCarousel>
               </Col>
-              
+
               <Col xs={24}>
                 {/* 大图展示区 */}
                 <ImageShowcase>
@@ -1250,7 +1254,7 @@ const Welcome: React.FC = () => {
               </Col>
             </Row>
           </Col>
-          
+
           {/* 最近使用和小贴士 */}
           <Col xs={24} lg={8}>
             <Row gutter={[16, 16]}>
@@ -1277,9 +1281,9 @@ const Welcome: React.FC = () => {
                             </span>
                             {item.time}
                           </div>
-                          <Progress 
-                            percent={item.progress} 
-                            size="small" 
+                          <Progress
+                            percent={item.progress}
+                            size="small"
                             showInfo={false}
                             strokeColor={
                               item.typeClass === 'type-model' ? '#2A6AFF' :
@@ -1296,14 +1300,14 @@ const Welcome: React.FC = () => {
                   </div>
                 </RecentCard>
               </Col>
-              
+
               <Col xs={24}>
                 <TipsCard hoverable $isDark={isDark}>
                   <div className="tip-header">
                     <Title level={5} style={{ margin: 0 }}>平台使用技巧</Title>
                     <Button type="link" size="small">更多技巧</Button>
                   </div>
-                  
+
                   {tipsData.map((tip, index) => (
                     <div key={index} className="tip-item">
                       <div className="tip-icon-container">
@@ -1317,7 +1321,7 @@ const Welcome: React.FC = () => {
                       </div>
                     </div>
                   ))}
-                  
+
                   <div className="tips-footer">
                     <Button type="link" icon={<ArrowRightOutlined />}>查看完整指南</Button>
                   </div>
@@ -1326,8 +1330,8 @@ const Welcome: React.FC = () => {
             </Row>
           </Col>
         </Row>
-        
-        {/* 技术支持与帮助 */}
+
+        {/* 技术支持与帮助 (Keep as is) */}
         <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
           <Col span={24}>
             <SupportCard title="技术支持与帮助" hoverable $isDark={isDark}>

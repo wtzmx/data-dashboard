@@ -1,54 +1,54 @@
 // src/pages/DataIntegrationPlatform.tsx
 
-import React, { useState } from 'react';
-import { 
-  Row, 
-  Col, 
-  Statistic, 
-  Typography, 
-  Space, 
-  Badge, 
-  Divider, 
-  Card, 
-  Tabs, 
-  Table, 
-  Tag, 
-  List, 
+import React from 'react'; // Removed unused useState
+import {
+  Row,
+  Col,
+  Statistic,
+  Typography,
+  Space,
+  Badge,
+  // Divider, // Removed unused component
+  // Card, // Removed unused component
+  // Tabs, // Removed unused component
+  Table,
+  Tag,
+  List,
   Avatar,
   Steps,
-  Tooltip,
+  // Tooltip, // Removed unused component
 } from 'antd';
-import { 
-  DatabaseOutlined, 
-  ApiOutlined, 
-  FileTextOutlined, 
+import {
+  DatabaseOutlined,
+  ApiOutlined,
+  FileTextOutlined,
   CloudServerOutlined,
   CheckCircleOutlined,
   SyncOutlined,
   CloseCircleOutlined,
   QuestionCircleOutlined,
   NodeIndexOutlined,
-  SwapOutlined,
+  // SwapOutlined, // Removed unused icon
   FilterOutlined,
   CloudUploadOutlined,
   ClusterOutlined,
   DashboardOutlined,
-  ApartmentOutlined,
-  HddOutlined
+  // ApartmentOutlined, // Removed unused icon
+  // HddOutlined // Removed unused icon
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import ModernCard from '../components/ModernCard'; // Assuming this exists
 import ModernChart from '../components/ModernChart'; // Assuming this exists
 import { useTheme } from '../context/ThemeContext'; // Assuming this exists
-import * as echarts from 'echarts';
+// import * as echarts from 'echarts'; // Removed unused import
 
 const { Title, Text, Paragraph } = Typography;
 const { Step } = Steps;
 
-// Re-using the StyledStatisticCard and StatHeader from the previous example
+// Re-using the StyledStatisticCard and StatHeader from the previous example (Keep as is)
 const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' | 'error' | 'info'; $isDark: boolean }>`
   height: 100%;
-  
+
   .ant-card-body {
     padding: 20px;
     display: flex;
@@ -61,47 +61,47 @@ const StyledStatisticCard = styled(ModernCard)<{ $type?: 'success' | 'warning' |
     margin-bottom: 16px;
     color: ${props => props.$isDark ? 'rgba(226, 232, 240, 0.85)' : 'rgba(30, 41, 59, 0.85)'};
   }
-  
+
   .ant-statistic-content-value {
     font-size: 28px;
     font-weight: 600;
   }
-  
+
   .indicator {
     display: flex;
     align-items: center;
     margin-top: 8px;
     font-size: 14px;
   }
-  
+
   ${props => {
     switch (props.$type) {
       case 'success':
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(24, 210, 186, 0.05) 0%, rgba(24, 210, 186, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(24, 210, 186, 0.05) 0%, rgba(24, 210, 186, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(0, 201, 167, 0.05) 0%, rgba(0, 201, 167, 0.1) 100%)'};
           .ant-statistic-content-value { color: ${props.$isDark ? '#18D2BA' : '#00C9A7'}; }
         `;
       case 'warning':
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(255, 214, 98, 0.05) 0%, rgba(255, 214, 98, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(255, 214, 98, 0.05) 0%, rgba(255, 214, 98, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(255, 197, 66, 0.05) 0%, rgba(255, 197, 66, 0.1) 100%)'};
           .ant-statistic-content-value { color: ${props.$isDark ? '#FFD662' : '#FFC542'}; }
         `;
       case 'error':
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(255, 122, 122, 0.05) 0%, rgba(255, 122, 122, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(255, 122, 122, 0.05) 0%, rgba(255, 122, 122, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 107, 107, 0.1) 100%)'};
           .ant-statistic-content-value { color: ${props.$isDark ? '#FF7A7A' : '#FF6B6B'}; }
         `;
       case 'info':
       default:
         return `
-          background: ${props.$isDark 
-            ? 'linear-gradient(135deg, rgba(91, 138, 249, 0.05) 0%, rgba(91, 138, 249, 0.1) 100%)' 
+          background: ${props.$isDark
+            ? 'linear-gradient(135deg, rgba(91, 138, 249, 0.05) 0%, rgba(91, 138, 249, 0.1) 100%)'
             : 'linear-gradient(135deg, rgba(42, 106, 255, 0.05) 0%, rgba(42, 106, 255, 0.1) 100%)'};
           .ant-statistic-content-value { color: ${props.$isDark ? '#5B8AF9' : '#2A6AFF'}; }
         `;
@@ -114,12 +114,12 @@ const StatHeader = styled.div<{ $isDark: boolean }>`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
-  
+
   .ant-badge-status-dot {
     width: 8px;
     height: 8px;
   }
-  
+
   .title {
     font-size: 16px;
     font-weight: 500;
@@ -170,7 +170,13 @@ const DataIntegrationPlatform: React.FC = () => {
       textStyle: { fontSize: 16, fontWeight: 500 },
       left: 10, top: 5,
     },
-    tooltip: { trigger: 'axis', /* Theme styles added below */ },
+    // Merged tooltip properties
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: isDark ? 'rgba(30, 41, 59, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+      borderColor: isDark ? '#334155' : '#E2E8F0',
+      textStyle: { color: isDark ? '#E2E8F0' : '#1E293B' }
+    },
     legend: { data: ['实时处理', '批量处理'], right: 10, top: 5 },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true, top: 60 },
     xAxis: {
@@ -178,20 +184,15 @@ const DataIntegrationPlatform: React.FC = () => {
       data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
       axisLine: { lineStyle: { color: isDark ? '#475569' : '#CBD5E1' } }
     },
-    yAxis: { 
-      type: 'value', 
-      splitLine: { lineStyle: { color: isDark ? 'rgba(51, 65, 85, 0.2)' : 'rgba(226, 232, 240, 0.5)' } } 
+    yAxis: {
+      type: 'value',
+      splitLine: { lineStyle: { color: isDark ? 'rgba(51, 65, 85, 0.2)' : 'rgba(226, 232, 240, 0.5)' } }
     },
     series: [
       { name: '实时处理', type: 'line', smooth: true, symbolSize: 6, data: [1.2, 1.5, 1.8, 1.6, 1.9, 2.2, 2.5] },
       { name: '批量处理', type: 'line', smooth: true, symbolSize: 6, data: [5.5, 5.8, 6.2, 7.0, 6.5, 7.5, 8.0] }
-    ],
-    // Apply theme styles
-    tooltip: {
-      backgroundColor: isDark ? 'rgba(30, 41, 59, 0.9)' : 'rgba(255, 255, 255, 0.9)',
-      borderColor: isDark ? '#334155' : '#E2E8F0',
-      textStyle: { color: isDark ? '#E2E8F0' : '#1E293B' }
-    }
+    ]
+    // Removed duplicate tooltip definition
   };
 
   // Pie Chart: ETL Job Status Distribution
@@ -201,10 +202,17 @@ const DataIntegrationPlatform: React.FC = () => {
       textStyle: { fontSize: 16, fontWeight: 500 },
       left: 10, top: 5
     },
-    tooltip: { trigger: 'item', formatter: '{a} <br/>{b} : {c} ({d}%)', /* Theme styles added below */ },
-    legend: { 
-      orient: 'vertical', right: 10, top: 'center', 
-      icon: 'circle', itemWidth: 10, itemHeight: 10, itemGap: 15 
+    // Merged tooltip properties
+    tooltip: {
+      trigger: 'item',
+      formatter: '{a} <br/>{b} : {c} ({d}%)',
+      backgroundColor: isDark ? 'rgba(30, 41, 59, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+      borderColor: isDark ? '#334155' : '#E2E8F0',
+      textStyle: { color: isDark ? '#E2E8F0' : '#1E293B' }
+    },
+    legend: {
+      orient: 'vertical', right: 10, top: 'center',
+      icon: 'circle', itemWidth: 10, itemHeight: 10, itemGap: 15
     },
     series: [
       {
@@ -221,16 +229,11 @@ const DataIntegrationPlatform: React.FC = () => {
           { value: 15, name: '待调度', itemStyle: { color: isDark ? '#FFD662' : '#FFC542' } }
         ]
       }
-    ],
-    // Apply theme styles
-    tooltip: {
-      backgroundColor: isDark ? 'rgba(30, 41, 59, 0.9)' : 'rgba(255, 255, 255, 0.9)',
-      borderColor: isDark ? '#334155' : '#E2E8F0',
-      textStyle: { color: isDark ? '#E2E8F0' : '#1E293B' }
-    }
+    ]
+    // Removed duplicate tooltip definition
   };
 
-  // --- Static Data ---
+  // --- Static Data (Keep as is) ---
 
   // Data Sources List
   const sourceData = [
@@ -246,13 +249,13 @@ const DataIntegrationPlatform: React.FC = () => {
   const jobColumns = [
     { title: '任务名称', dataIndex: 'name', key: 'name', width: 250 },
     { title: '类型', dataIndex: 'type', key: 'type', width: 100 },
-    { 
+    {
       title: '状态', dataIndex: 'status', key: 'status', width: 100,
       render: (status: string) => {
         let color = 'default';
         let icon = <QuestionCircleOutlined />;
-        if (status === '成功') { color = 'success'; icon = <CheckCircleOutlined />; } 
-        else if (status === '运行中') { color = 'processing'; icon = <SyncOutlined spin />; } 
+        if (status === '成功') { color = 'success'; icon = <CheckCircleOutlined />; }
+        else if (status === '运行中') { color = 'processing'; icon = <SyncOutlined spin />; }
         else if (status === '失败') { color = 'error'; icon = <CloseCircleOutlined />; }
         return <Tag icon={icon} color={color}>{status}</Tag>;
       }
@@ -271,10 +274,11 @@ const DataIntegrationPlatform: React.FC = () => {
     { key: '6', name: 'CRM 数据同步 (Salesforce -> Data Warehouse)', type: '批量', status: '运行中', startTime: '2023-10-26 09:30:00', duration: '45 min (est.)', volume: '2.1 GB' },
   ];
 
+  // --- JSX (Keep as is) ---
   return (
     <Space direction="vertical" style={{ width: '100%' }} size="large">
       <Title level={3} style={{ margin: '0 0 16px 0' }}>数据集成平台</Title>
-      
+
       {/* --- Summary Statistics --- */}
       <Row gutter={[24, 24]}>
         <Col xs={24} sm={12} md={6}>
@@ -297,29 +301,29 @@ const DataIntegrationPlatform: React.FC = () => {
               <Badge status="success" />
             </StatHeader>
             <Statistic value={jobData.filter(j => j.status === '运行中' || j.status === '成功').length} valueStyle={{ fontSize: 28 }} />
-             <div className="indicator">
+            <div className="indicator">
               <SyncOutlined style={{ color: '#00C9A7', marginRight: 8 }} />
               <Text type="secondary">24h 内执行 {jobData.length} 次</Text>
             </div>
           </StyledStatisticCard>
         </Col>
-         <Col xs={24} sm={12} md={6}>
+        <Col xs={24} sm={12} md={6}>
           <StyledStatisticCard hoverable $type={pieChartOption.series[0].data[1].value > 0 ? 'error' : 'success'} $isDark={isDark}>
             <StatHeader $isDark={isDark}>
               <Text className="title">任务成功率 (近24h)</Text>
               <Badge status={pieChartOption.series[0].data[1].value > 0 ? 'error' : 'success'} />
             </StatHeader>
-             <Statistic
+            <Statistic
               value={(pieChartOption.series[0].data[0].value / (pieChartOption.series[0].data[0].value + pieChartOption.series[0].data[1].value)) * 100}
               precision={1}
               valueStyle={{ fontSize: 28 }}
               suffix="%"
             />
             <div className="indicator">
-               {pieChartOption.series[0].data[1].value > 0 
-                ? <CloseCircleOutlined style={{ color: '#FF6B6B', marginRight: 8 }} /> 
+              {pieChartOption.series[0].data[1].value > 0
+                ? <CloseCircleOutlined style={{ color: '#FF6B6B', marginRight: 8 }} />
                 : <CheckCircleOutlined style={{ color: '#00C9A7', marginRight: 8 }} />
-               }
+              }
               <Text type="secondary">{pieChartOption.series[0].data[1].value} 个失败任务</Text>
             </div>
           </StyledStatisticCard>
@@ -330,7 +334,7 @@ const DataIntegrationPlatform: React.FC = () => {
               <Text className="title">今日处理数据量</Text>
               <Badge status="warning" />
             </StatHeader>
-            <Statistic value={10.5} precision={1} valueStyle={{ fontSize: 28 }} suffix="TB"/>
+            <Statistic value={10.5} precision={1} valueStyle={{ fontSize: 28 }} suffix="TB" />
             <div className="indicator">
               <DashboardOutlined style={{ color: '#FFC542', marginRight: 8 }} />
               <Text type="secondary">较昨日 +15%</Text>
@@ -340,10 +344,10 @@ const DataIntegrationPlatform: React.FC = () => {
       </Row>
 
       {/* --- Data Sources & ETL Pipeline Example --- */}
-       <Row gutter={[24, 24]}>
+      <Row gutter={[24, 24]}>
         <Col xs={24} md={8}>
           <SourceListCard title="已连接数据源" hoverable $isDark={isDark}>
-             <List
+            <List
               itemLayout="horizontal"
               dataSource={sourceData}
               renderItem={item => (
@@ -360,17 +364,17 @@ const DataIntegrationPlatform: React.FC = () => {
           </SourceListCard>
         </Col>
         <Col xs={24} md={16}>
-           <EtlPipelineCard title="典型 ETL 流程示例：用户日志分析" hoverable $isDark={isDark}>
+          <EtlPipelineCard title="典型 ETL 流程示例：用户日志分析" hoverable $isDark={isDark}>
             <Steps current={4} size="small" style={{ marginTop: 20, marginBottom: 10 }}>
-                <Step title="提取 (Extract)" icon={<NodeIndexOutlined />} description="从 S3 拉取日志文件" />
-                <Step title="转换 (Transform)" icon={<FilterOutlined />} description="清洗、格式化、关联用户信息" />
-                <Step title="加载 (Load)" icon={<CloudUploadOutlined />} description="加载到 Elasticsearch 集群" />
-                <Step title="调度 (Schedule)" icon={<SyncOutlined />} description="每日凌晨 3 点执行" />
-                <Step status="finish" title="完成" icon={<CheckCircleOutlined />} description="生成分析报告" />
-             </Steps>
-             <Paragraph type="secondary" style={{ marginTop: 20 }}>
-               这是一个标准的批量处理ETL流程，用于将原始日志数据转化为可供分析的结构化数据。
-             </Paragraph>
+              <Step title="提取 (Extract)" icon={<NodeIndexOutlined />} description="从 S3 拉取日志文件" />
+              <Step title="转换 (Transform)" icon={<FilterOutlined />} description="清洗、格式化、关联用户信息" />
+              <Step title="加载 (Load)" icon={<CloudUploadOutlined />} description="加载到 Elasticsearch 集群" />
+              <Step title="调度 (Schedule)" icon={<SyncOutlined />} description="每日凌晨 3 点执行" />
+              <Step status="finish" title="完成" icon={<CheckCircleOutlined />} description="生成分析报告" />
+            </Steps>
+            <Paragraph type="secondary" style={{ marginTop: 20 }}>
+              这是一个标准的批量处理ETL流程，用于将原始日志数据转化为可供分析的结构化数据。
+            </Paragraph>
           </EtlPipelineCard>
         </Col>
       </Row>
@@ -393,9 +397,9 @@ const DataIntegrationPlatform: React.FC = () => {
       <Row gutter={[24, 24]}>
         <Col span={24}>
           <ModernCard title="ETL 任务监控" hoverable>
-            <Table 
-              columns={jobColumns} 
-              dataSource={jobData} 
+            <Table
+              columns={jobColumns}
+              dataSource={jobData}
               pagination={{ pageSize: 10 }}
               scroll={{ x: 800 }} // Enable horizontal scroll on smaller screens
             />

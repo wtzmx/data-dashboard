@@ -69,7 +69,7 @@ const ChinaMap: React.FC<ChinaMapProps> = ({ style, className }) => {
         console.log('ECharts instance initialized.');
       }
 
-      const option: echarts.EChartsOption = { // 使用 EChartsOption 类型提供更好的类型提示
+      const option: echarts.EChartsCoreOption = { // 使用 EChartsOption 类型提供更好的类型提示
         title: {
           text: '全国数据流动监控',
           left: 'center',
